@@ -284,7 +284,7 @@ export default {
 
     createRequest() {
       this.loading = true;
-      let url = "https://devtools.life/api/v1/bookmark";
+      let url = "https://devtools.life/api/v1/bookmarks";
 
       axios.post(url, null, {
         params: this.create
@@ -318,7 +318,7 @@ export default {
 
     remove() {
       this.loading = true;
-      let url = "https://devtools.life/api/v1/bookmark/" + this.id;
+      let url = "https://devtools.life/api/v1/bookmarks/" + this.id;
 
       axios.delete(url, {})
            .then(res => {

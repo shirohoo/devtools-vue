@@ -137,7 +137,7 @@ export default {
         this.search.page = page - 1;
       }
 
-      let url = 'https://devtools.life/api/v1/boards';
+      let url = 'https://devtools.life/api/v1/blogs';
       axios.get(url, {
         params: {
           page   : this.search.page,
