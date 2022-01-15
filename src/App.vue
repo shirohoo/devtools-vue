@@ -7,7 +7,7 @@
             <v-icon>fas fa-arrow-alt-circle-right</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Tech Blogs</v-list-item-title>
+            <v-list-item-title>Tech Blog</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item router :to="{name: 'dictionary'}" exact>
@@ -15,7 +15,7 @@
             <v-icon>fas fa-arrow-alt-circle-right</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Document Dictionary</v-list-item-title>
+            <v-list-item-title>Word dictionary</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item router :to="{name: 'bookmark'}" exact>
@@ -23,7 +23,7 @@
             <v-icon>fas fa-arrow-alt-circle-right</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Bookmarks</v-list-item-title>
+            <v-list-item-title>Bookmark</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -31,18 +31,18 @@
 
     <v-app-bar app clipped-left>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>DEVELOPMENT DICTIONARY</v-toolbar-title>
+      <v-toolbar-title>Devtools</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-tab>
         <v-badge color="pink" dot>
-          DAU <br />
+          DAU <br/>
           {{ numberFormat(visitors.day) }}
         </v-badge>
       </v-tab>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <v-tab>
         <v-badge color="teal" dot>
-          TOTAL <br />
+          TOTAL <br/>
           {{ numberFormat(visitors.reduce) }}
         </v-badge>
       </v-tab>
@@ -50,7 +50,7 @@
 
     <v-main>
       <v-container fill-height fluid align-center>
-        <router-view />
+        <router-view/>
       </v-container>
     </v-main>
 
@@ -63,11 +63,10 @@
               class="mx-4"
               dark
               icon
-              href="https://github.com/shirohoo/development-dictionary" target="_blank">
+              href="https://github.com/shirohoo" target="_blank">
             <v-icon size="24px">
               {{ icon }}
             </v-icon>
-            <strong class="font-italic text-caption" >&nbsp;V3.5 # </strong >
           </v-btn>
           <strong class="subheading font-italic text-caption"> Only I can change my life. No one can do it for me.</strong>
         </v-card-title>
@@ -76,29 +75,29 @@
   </v-app>
 </template>
 
-<script >
+<script>
 import Vuetify from "vuetify";
 import {mapState} from "vuex";
 
 export default {
-  name   : 'App',
+  name: 'App',
   vuetify: new Vuetify(),
-  props  : {},
+  props: {},
 
   data: () => ({
     drawer: null,
-    icons : [
+    icons: [
       'mdi-github',
     ],
   }),
 
-  created(){
+  created() {
     this.$vuetify.theme.dark = true;
   },
 
   computed: {
     ...mapState(["visitors"]),
-    numberFormat(){
+    numberFormat() {
       return (num) => {
         let regexp = /\B(?=(\d{3})+(?!\d))/g;
         return num.toString().replace(regexp, ',');
@@ -107,7 +106,7 @@ export default {
   },
 
   methods: {
-    notReady(){
+    notReady() {
       alert('준비중입니다.')
     }
   }
