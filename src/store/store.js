@@ -7,13 +7,13 @@ export default new Vuex.Store({
   state    : {
     visitors: {
       day   : 0,
-      reduce: 0,
+      total: 0,
     }
   },
   mutations: {
     setVisitors(state, visitors){
       state.visitors.day = visitors.visitorsOfDay;
-      state.visitors.reduce = visitors.visitorsOfReduce;
+      state.visitors.total = visitors.visitorsOfTotal;
     }
   },
   actions  : {

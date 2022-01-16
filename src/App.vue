@@ -43,7 +43,7 @@
       <v-tab>
         <v-badge color="teal" dot>
           TOTAL <br/>
-          {{ numberFormat(visitors.reduce) }}
+          {{ numberFormat(visitors.total) }}
         </v-badge>
       </v-tab>
     </v-app-bar>
