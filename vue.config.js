@@ -3,7 +3,7 @@ module.exports = {
     config
       .plugin('html')
       .tap(args => {
-        args[0].title = 'DEVELOPMENT DICTIONARY';
+        args[0].title = 'devtools';
         return args;
       });
   },
