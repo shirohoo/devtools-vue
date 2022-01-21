@@ -5,14 +5,14 @@
       <v-col cols="2">
       </v-col>
       <v-col>
-        <v-select v-model="search.company" :items="groups" label="Group" @change="findContents"></v-select>
-        <v-text-field label="Title" v-model="search.title" @keyup="findContents" ></v-text-field >
+        <v-select v-model="search.company" :items="companies" label="Companies" @change="findContents"></v-select>
+        <v-text-field label="Title" v-model="search.title" @keyup="findContents"></v-text-field>
       </v-col>
       <v-col class="pa-3" cols="3">
         <v-btn class="ma-3" color="purple" dark large outlined @click="resetSearchForm">
           <v-icon dark>fas fa-trash-restore-alt</v-icon>
         </v-btn>
-        <br />
+        <br/>
         <v-btn class="ma-3" color="purple" dark large outlined @click="findContents">
           <v-icon dark>fas fa-search</v-icon>
         </v-btn>
@@ -50,25 +50,25 @@
         <v-simple-table class="rounded-lg" fixed-header height="100%">
           <template v-slot:default>
             <thead>
-              <tr>
-                <th class="text-center rounded-tl-lg" style="width: 15%;">Group</th>
-                <th class="text-center" style="width: 60%;">Title</th>
-                <th class="text-center rounded-tr-lg" style="width: 25%;">Date</th>
-              </tr>
+            <tr>
+              <th class="text-center rounded-tl-lg" style="width: 15%;">Companies</th>
+              <th class="text-center" style="width: 60%;">Title</th>
+              <th class="text-center rounded-tr-lg" style="width: 25%;">Date</th>
+            </tr>
             </thead>
             <tbody>
-              <tr v-for="content in contents">
-                <td>
-                  <div class="pa-2">
-                    <img class="rounded-lg" :src="content.imgPath" height="48px" width="96px" :title="content.company" />
-                  </div>
-                </td>
-                <td class="text-left">
-                  <v-btn x-small v-show="isBetweenDay(content.regDate)" class="ma-2" color="purple" dark>Today</v-btn>
-                  <a :href="content.link" target="blank" class="text-decoration-none" style="color: white; font-weight: bold">{{ content.title }}</a>
-                </td>
-                <td class="text-center">{{ content.regDate }}</td>
-              </tr>
+            <tr v-for="content in contents">
+              <td>
+                <div class="pa-2">
+                  <img class="rounded-lg" :src="content.imgPath" height="48px" width="96px" :title="content.company"/>
+                </div>
+              </td>
+              <td class="text-left">
+                <v-btn x-small v-show="isBetweenDay(content.regDate)" class="ma-2" color="purple" dark>Today</v-btn>
+                <a :href="content.link" target="blank" class="text-decoration-none" style="color: white; font-weight: bold">{{ content.title }}</a>
+              </td>
+              <td class="text-center">{{ content.regDate }}</td>
+            </tr>
             </tbody>
           </template>
         </v-simple-table>
@@ -90,7 +90,7 @@
   </v-container>
 </template>
 
-<script >
+<script>
 import axios from 'axios';
 import {mapActions} from "vuex";
 
@@ -99,29 +99,30 @@ export default {
 
   data() {
     return {
-      search  : {
-        page   : 0,
-        size   : 10,
+      search: {
+        page: 0,
+        size: 10,
         company: '',
-        title  : ''
+        title: ''
       },
       contents: {},
-      pager   : {
-        currentPage  : 0,
-        total        : 0,
+      pager: {
+        currentPage: 0,
+        total: 0,
         totalElements: 0,
       },
-      groups  : ["우아한형제들", "카카오", "야놀자", "라인", "당근마켓", "마켓컬리", "왓챠"],
-      display : [10, 30],
+      companies: [],
+      display: [10, 30],
     }
   },
 
-  mounted(){
+  mounted() {
+    this.findCategories();
     this.findContents();
   },
 
   computed: {
-    numberFormat(){
+    numberFormat() {
       return (num) => {
         let regexp = /\B(?=(\d{3})+(?!\d))/g;
         return num.toString().replace(regexp, ',');
@@ -132,18 +133,23 @@ export default {
   methods: {
     ...mapActions(["getCurrentVisitors"]),
 
-    findContents(page){
-      if(page !== undefined){
+    findCategories() {
+      let url = "api/v1/blogs/companies";
+      axios.get(url).then(res => this.companies = res.data)
+    },
+
+    findContents(page) {
+      if (page !== undefined) {
         this.search.page = page - 1;
       }
 
-      let url = 'https://devtools.life/api/v1/blogs';
+      let url = 'api/v1/blogs';
       axios.get(url, {
         params: {
-          page   : this.search.page,
-          size   : this.search.size,
+          page: this.search.page,
+          size: this.search.size,
           company: this.search.company,
-          title  : this.search.title
+          title: this.search.title
         }
       }).then(res => {
         this.contents = res.data.pages.content;
@@ -155,18 +161,17 @@ export default {
         this.pager.totalElements = res.data.pages.totalElements;
 
         // 페이징 버그 방지
-        if(this.search.page === 0 && this.pager.total === 0) return;
-        if(this.search.page >= this.pager.total){
+        if (this.search.page === 0 && this.pager.total === 0) return;
+        if (this.search.page >= this.pager.total) {
           this.search.page = this.pager.total - 1;
           this.findContents();
         }
-      }).catch((e) => {
-        console.log(e)
-        alert('400, Bad Request!')
+      }).catch((err) => {
+        alert(err)
       });
     },
 
-    resetSearchForm(){
+    resetSearchForm() {
       this.search.page = 0;
       this.search.size = 10;
       this.search.company = '';
@@ -174,7 +179,7 @@ export default {
       this.findContents(1);
     },
 
-    isBetweenDay(regDate){
+    isBetweenDay(regDate) {
       let regDateArray = String(regDate).split('-');
       let date = new Date(regDateArray[0] *= 1, regDateArray[1] - 1, regDateArray[2] *= 1)
 
