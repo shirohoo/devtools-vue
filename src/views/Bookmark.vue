@@ -325,7 +325,7 @@ export default {
       this.loading = true;
       let url = "api/v1/bookmarks/" + this.id;
 
-      axios.delete(url, {})
+      axios.delete(url, {withCredentials: true})
           .then(res => {
             alert("Successes delete!");
             this.loading = false;
