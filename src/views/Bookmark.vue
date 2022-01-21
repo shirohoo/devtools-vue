@@ -293,20 +293,15 @@ export default {
       let url = "api/v1/bookmarks";
 
       axios.post(url, this.create, {withCredentials: true})
-          .then(res => {
-            if (res.request.responseURL.includes("login")) {
-              window.location.href = "https://devtools.life/login";
-              return;
-            }
+          .then(() => {
             alert("Successes create!");
             this.findContents();
             this.loading = false;
             this.createState = false;
-          }).catch(err => {
-        alert(err);
-        this.loading = false;
-        this.createState = false;
-      });
+          })
+          .catch(() => {
+            window.location.href = "/login";
+          });
     },
 
     cancelCreate() {
@@ -326,13 +321,13 @@ export default {
       let url = "api/v1/bookmarks/" + this.id;
 
       axios.delete(url, {withCredentials: true})
-          .then(res => {
+          .then(() => {
             alert("Successes delete!");
             this.loading = false;
             this.deleteState = false;
             this.findContents();
           })
-          .catch(err => {
+          .catch(() => {
             window.location.href = "/login";
           });
     },
