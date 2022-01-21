@@ -1,90 +1,90 @@
-<template >
-  <v-container fill-height fluid >
+<template>
+  <v-container fill-height fluid>
     <!-- search area -->
-    <v-row justify="center" >
-      <v-col cols="2" >
-      </v-col >
-      <v-col >
+    <v-row justify="center">
+      <v-col cols="2">
+      </v-col>
+      <v-col>
         <v-select
             v-model="search.category" :items="categories" label="Category" @change="findContents"
         />
         <v-text-field label="Title" v-model="search.title" @keyup="findContents"
         />
-      </v-col >
-      <v-col class="pa-3" cols="3" >
+      </v-col>
+      <v-col class="pa-3" cols="3">
         <v-btn class="ma-3" color="purple" dark large outlined @click="resetSearchForm"
         >
-          <v-icon dark >fas fa-trash-restore-alt</v-icon >
-        </v-btn >
-        <br />
+          <v-icon dark>fas fa-trash-restore-alt</v-icon>
+        </v-btn>
+        <br/>
         <v-btn class="ma-3" color="purple" dark large outlined @click="findContents"
         >
-          <v-icon dark >fas fa-search</v-icon >
-        </v-btn >
-      </v-col >
-      <v-col cols="1" >
-      </v-col >
-    </v-row >
+          <v-icon dark>fas fa-search</v-icon>
+        </v-btn>
+      </v-col>
+      <v-col cols="1">
+      </v-col>
+    </v-row>
 
     <!-- total post & size area -->
-    <v-row justify="center" >
-      <v-col cols="1" >
-      </v-col >
-      <v-col align-self="center" class="text-h6" >
-        <v-tooltip top >
-          <template v-slot:activator="{ on, attrs }" >
-            <v-icon dark v-bind="attrs" v-on="on" large color="teal" >
+    <v-row justify="center">
+      <v-col cols="1">
+      </v-col>
+      <v-col align-self="center" class="text-h6">
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon dark v-bind="attrs" v-on="on" large color="teal">
               fas fa-newspaper
-            </v-icon >
+            </v-icon>
             &nbsp;
             {{ numberFormat(pager.totalElements) }}
-          </template >
-          <span >articles</span >
-        </v-tooltip >
-      </v-col >
-      <v-col cols="3" >
+          </template>
+          <span>articles</span>
+        </v-tooltip>
+      </v-col>
+      <v-col cols="3">
         <v-select
             v-model="search.size"
             :items="display"
             label="Display"
             @change="findContents(1);"
         />
-      </v-col >
-      <v-col cols="1" >
+      </v-col>
+      <v-col cols="1">
         <v-btn
             @click="createState = !createState"
             fab
             dark
             color="teal"
         >
-          <v-icon dark >
+          <v-icon dark>
             mdi-plus
-          </v-icon >
-        </v-btn >
-      </v-col >
-      <v-col cols="1" ></v-col >
-    </v-row >
+          </v-icon>
+        </v-btn>
+      </v-col>
+      <v-col cols="1"></v-col>
+    </v-row>
 
     <!-- board area -->
-    <v-row class="text-center pa-3" justify="center" >
-      <v-col >
-        <v-simple-table class="rounded-lg" fixed-header height="100%" >
-          <template v-slot:default >
-            <thead >
-            <tr >
-              <th class="text-center rounded-tl-lg" style="width: 20%;" >Category</th >
-              <th class="text-center" style="width: 70%;" >Title</th >
-              <th class="text-center" style="width: 10%;" >Delete</th >
-            </tr >
-            </thead >
-            <tbody >
-            <tr v-for="content in contents" >
-              <td >
-                <div class="text-h6" style="color: paleturquoise; font-weight: bold" >
+    <v-row class="text-center pa-3" justify="center">
+      <v-col>
+        <v-simple-table class="rounded-lg" fixed-header height="100%">
+          <template v-slot:default>
+            <thead>
+            <tr>
+              <th class="text-center rounded-tl-lg" style="width: 20%;">Category</th>
+              <th class="text-center" style="width: 70%;">Title</th>
+              <th class="text-center" style="width: 10%;">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="content in contents">
+              <td>
+                <div class="text-h6" style="color: paleturquoise; font-weight: bold">
                   {{ content.category }}
-                </div >
-              </td >
-              <td class="text-left" >
+                </div>
+              </td>
+              <td class="text-left">
                 <a
                     :href="content.link"
                     target="blank"
@@ -93,25 +93,25 @@
                       font-weight: bold"
                 >
                   {{ content.title }}
-                </a >
-              </td >
-              <td >
+                </a>
+              </td>
+              <td>
                 <v-icon
                     @click="deleteBookmark(content.id)"
                 >
                   fas fa-trash-alt
-                </v-icon >
-              </td >
-            </tr >
-            </tbody >
-          </template >
-        </v-simple-table >
-      </v-col >
-    </v-row >
+                </v-icon>
+              </td>
+            </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+      </v-col>
+    </v-row>
 
     <!-- pagination area -->
-    <v-row justify="center" >
-      <v-col >
+    <v-row justify="center">
+      <v-col>
         <v-pagination
             color="teal"
             :value="pager.currentPage"
@@ -119,8 +119,8 @@
             :total-visible="9"
             @input="findContents"
         />
-      </v-col >
-    </v-row >
+      </v-col>
+    </v-row>
 
     <!-- create area -->
     <v-sheet
@@ -131,7 +131,7 @@
         color="blue-grey darken-3"
         dark
     >
-      <div class="grey--text text--lighten-1 text-body-2 mb-4" >
+      <div class="grey--text text--lighten-1 text-body-2 mb-4">
         <v-select
             label="Category"
             v-model="create.category"
@@ -145,7 +145,7 @@
             label="Link"
             v-model="create.link"
         />
-      </div >
+      </div>
       <v-btn
           :loading="loading"
           class="ma-1"
@@ -154,7 +154,7 @@
           @click="createRequest"
       >
         Create
-      </v-btn >
+      </v-btn>
       <v-btn
           :disabled="loading"
           class="ma-1"
@@ -163,8 +163,8 @@
           @click="cancelCreate"
       >
         Cancel
-      </v-btn >
-    </v-sheet >
+      </v-btn>
+    </v-sheet>
 
     <!-- remove area -->
     <v-sheet v-if="deleteState" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 999"
@@ -174,9 +174,9 @@
              color="blue-grey darken-3"
              dark
     >
-      <div class="grey--text text--lighten-1 text-body-2 mb-4" >
+      <div class="grey--text text--lighten-1 text-body-2 mb-4">
         Are you sure you want to delete this?
-      </div >
+      </div>
       <v-btn
           :loading="loading"
           class="ma-1"
@@ -185,7 +185,7 @@
           @click="remove"
       >
         Delete
-      </v-btn >
+      </v-btn>
       <v-btn
           @click="deleteState = !deleteState"
           :disabled="loading"
@@ -194,13 +194,13 @@
           plain
       >
         Cancel
-      </v-btn >
-    </v-sheet >
+      </v-btn>
+    </v-sheet>
 
-  </v-container >
-</template >
+  </v-container>
+</template>
 
-<script >
+<script>
 import axios from "axios";
 import {mapActions} from "vuex";
 
@@ -208,32 +208,33 @@ export default {
   name: "Bookmark",
   data() {
     return {
-      id         : 0,
+      id: 0,
       deleteState: false,
       createState: false,
-      loading    : false,
-      create     : {
+      loading: false,
+      create: {
         category: null,
-        title   : null,
-        link    : null
+        title: null,
+        link: null
       },
-      search     : {
-        page    : 0,
-        size    : 10,
+      search: {
+        page: 0,
+        size: 10,
         category: '',
-        title   : ''
+        title: ''
       },
-      contents   : {},
-      pager      : {
-        currentPage  : 0,
-        total        : 0,
+      contents: {},
+      pager: {
+        currentPage: 0,
+        total: 0,
         totalElements: 0,
       },
-      categories : ["Java", "Spring", "Test", "Build", "Database", "CS", "Git", "IDE", "Infra", "Javascript", "Front Framework"],
-      display    : [10, 30],
+      categories: [],
+      display: [10, 30],
     }
   },
   mounted() {
+    this.findCategories();
     this.findContents();
   },
   computed: {
@@ -244,15 +245,20 @@ export default {
       };
     },
   },
-  methods : {
+  methods: {
     ...mapActions(["getCurrentVisitors"]),
+
+    findCategories() {
+      let url = "api/v1/bookmarks/categories";
+      axios.get(url).then(res => this.categories = res.data)
+    },
 
     findContents(page) {
       if (page !== undefined) {
         this.search.page = page - 1;
       }
 
-      let url = "https://devtools.life/api/v1/bookmarks";
+      let url = "api/v1/bookmarks";
 
       axios.get(url, {
         params: this.search
@@ -284,21 +290,20 @@ export default {
 
     createRequest() {
       this.loading = true;
-      let url = "https://devtools.life/api/v1/bookmarks";
+      let url = "api/v1/bookmarks";
 
-      axios.post(url, null, {
-        params: this.create
-      }).then(res => {
-        if (res.request.responseURL.includes("login")) {
-          window.location.href = "/login";
-          return;
-        }
-        alert("Successes create!");
-        this.findContents();
-        this.loading = false;
-        this.createState = false;
-      }).catch(err => {
-        alert("The value must not be empty!");
+      axios.post(url, this.create, {withCredentials: true})
+          .then(res => {
+            if (res.request.responseURL.includes("login")) {
+              window.location.href = "https://devtools.life/login";
+              return;
+            }
+            alert("Successes create!");
+            this.findContents();
+            this.loading = false;
+            this.createState = false;
+          }).catch(err => {
+        alert(err);
         this.loading = false;
         this.createState = false;
       });
@@ -318,19 +323,19 @@ export default {
 
     remove() {
       this.loading = true;
-      let url = "https://devtools.life/api/v1/bookmarks/" + this.id;
+      let url = "api/v1/bookmarks/" + this.id;
 
       axios.delete(url, {})
-           .then(res => {
-             alert("Successes delete!");
-             this.loading = false;
-             this.deleteState = false;
-             this.findContents();
-           })
-           .catch(err => {
-             window.location.href = "/login";
-           });
+          .then(res => {
+            alert("Successes delete!");
+            this.loading = false;
+            this.deleteState = false;
+            this.findContents();
+          })
+          .catch(err => {
+            window.location.href = "/login";
+          });
     },
   },
 };
-</script >
+</script>
